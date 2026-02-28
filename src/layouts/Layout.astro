@@ -1,0 +1,176 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Växjö Vattenpolering AB – Professionell vattenpolering',
+  description = 'Växjö Vattenpolering AB erbjuder professionell vattenpolering och ytbehandling av aluminium, mässing, stål och andra hårda material. Beläget i Växjö.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="sv_SE" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- GSAP for animations (used by Flux) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-dark-950 text-silver-200 font-sans antialiased overflow-x-hidden">
+    <slot />
+
+    <script>
+      // Flux — Animation & scroll effects
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduced) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Initial state: hide elements that will animate in ---
+        gsap.set('#hero h1, #hero p, #hero .flex a, #hero > .absolute.bottom-8', { opacity: 0, y: 40 });
+        gsap.set('#om-oss h2, #om-oss p, #om-oss .flex.flex-wrap, #om-oss .lg\\:col-span-2', { opacity: 0, y: 30 });
+        gsap.set('#tjanster h2, #tjanster > div > div:first-child > p, #tjanster h3', { opacity: 0, y: 30 });
+        gsap.set('#tjanster .grid > div', { opacity: 0, y: 30 });
+        gsap.set('#galleri h2, #galleri > div > div:first-child > p, #galleri h3', { opacity: 0, y: 30 });
+        gsap.set('#galleri .grid > div', { opacity: 0, y: 30 });
+        gsap.set('#kontakt h2, #kontakt > div > div:first-child > p', { opacity: 0, y: 30 });
+        gsap.set('#kontakt .space-y-6 > *, #kontakt .rounded-xl.overflow-hidden', { opacity: 0, y: 30 });
+
+        // --- Hero entrance timeline (on page load) ---
+        const heroTl = gsap.timeline({ delay: 0.3 });
+        heroTl
+          .to('#hero h1', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('#hero p', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+          .to('#hero .flex a', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.15 }, '-=0.4')
+          .to('#hero > .absolute.bottom-8', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.1');
+
+        // --- Hero parallax: background glow moves slower ---
+        gsap.to('#hero > .absolute.inset-0', {
+          yPercent: 30,
+          ease: 'none',
+          scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+        });
+
+        // --- Section reveal helper ---
+        function reveal(targets, opts = {}) {
+          gsap.to(targets, {
+            opacity: 1, y: 0,
+            duration: opts.duration || 0.8,
+            ease: opts.ease || 'power2.out',
+            stagger: opts.stagger || 0,
+            scrollTrigger: {
+              trigger: opts.trigger || targets,
+              start: opts.start || 'top 85%',
+              once: true,
+            }
+          });
+        }
+
+        // --- Om oss ---
+        reveal('#om-oss h2', { trigger: '#om-oss' });
+        reveal('#om-oss p', { trigger: '#om-oss', stagger: 0.15 });
+        reveal('#om-oss .flex.flex-wrap', { trigger: '#om-oss .flex.flex-wrap', start: 'top 90%' });
+        reveal('#om-oss .lg\\:col-span-2', {
+          trigger: '#om-oss .lg\\:col-span-2',
+          duration: 1,
+        });
+
+        // About image parallax
+        gsap.to('#om-oss .lg\\:col-span-2 img', {
+          yPercent: -8,
+          ease: 'none',
+          scrollTrigger: { trigger: '#om-oss', start: 'top bottom', end: 'bottom top', scrub: true }
+        });
+
+        // --- Tjänster ---
+        reveal('#tjanster h2', { trigger: '#tjanster' });
+        reveal('#tjanster > div > div:first-child > p', { trigger: '#tjanster' });
+
+        // Process step cards — staggered
+        const stepCards = document.querySelectorAll('#tjanster .grid:first-of-type > div:not(.hidden)');
+        reveal(stepCards, { trigger: '#tjanster .grid', stagger: 0.15 });
+
+        // Connecting line draw (the .h-px line)
+        const line = document.querySelector('#tjanster .hidden.lg\\:block');
+        if (line) {
+          gsap.set(line, { scaleX: 0, transformOrigin: 'left center' });
+          gsap.to(line, {
+            scaleX: 1, duration: 1.2, ease: 'power2.inOut',
+            scrollTrigger: { trigger: '#tjanster .grid', start: 'top 80%', once: true }
+          });
+        }
+
+        // Section subheadings
+        reveal('#tjanster h3', { trigger: '#tjanster h3', stagger: 0.1 });
+
+        // Client type cards
+        const clientCards = document.querySelectorAll('#tjanster .grid:last-of-type > div');
+        reveal(clientCards, { trigger: '#tjanster .grid:last-of-type', stagger: 0.1 });
+
+        // --- Galleri ---
+        reveal('#galleri h2', { trigger: '#galleri' });
+        reveal('#galleri > div > div:first-child > p', { trigger: '#galleri' });
+        reveal('#galleri h3', { trigger: '#galleri h3', stagger: 0.1 });
+
+        // Before/after cards
+        const baCards = document.querySelectorAll('#galleri .mb-16 .grid > div, #galleri .md\\:mb-20 .grid > div');
+        reveal(baCards, { trigger: '#galleri .mb-16, #galleri .md\\:mb-20', stagger: 0.2 });
+
+        // Photo grid items
+        const photoItems = document.querySelectorAll('#galleri .grid:last-of-type > div');
+        reveal(photoItems, { trigger: '#galleri .grid:last-of-type', stagger: 0.08, start: 'top 88%' });
+
+        // --- Kontakt ---
+        reveal('#kontakt h2', { trigger: '#kontakt' });
+        reveal('#kontakt > div > div:first-child > p', { trigger: '#kontakt' });
+        const contactCards = document.querySelectorAll('#kontakt .space-y-6 > *');
+        reveal(contactCards, { trigger: '#kontakt .space-y-6', stagger: 0.15 });
+        reveal('#kontakt .rounded-xl.overflow-hidden', {
+          trigger: '#kontakt .rounded-xl.overflow-hidden',
+          duration: 1,
+          start: 'top 88%',
+        });
+
+        // --- Active nav link tracking ---
+        const sections = ['om-oss', 'tjanster', 'galleri', 'kontakt'];
+        const navLinks = document.querySelectorAll('#main-nav .hidden.md\\:flex a[href^="#"]');
+        sections.forEach(id => {
+          ScrollTrigger.create({
+            trigger: '#' + id,
+            start: 'top 40%',
+            end: 'bottom 40%',
+            onToggle: self => {
+              navLinks.forEach(l => {
+                if (l.getAttribute('href') === '#' + id) {
+                  l.classList.toggle('text-white', self.isActive);
+                  l.classList.toggle('text-silver-200', !self.isActive);
+                }
+              });
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

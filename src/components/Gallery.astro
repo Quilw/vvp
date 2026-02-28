@@ -1,0 +1,96 @@
+---
+const beforeAfterPairs = [
+  {
+    title: 'Husqvarna motorlock',
+    before: { src: '/images/husqvarna-engine-cover-before.jpg', alt: 'Husqvarna motorlock före vattenpolering' },
+    after: { src: '/images/husqvarna-engine-cover-after.jpg', alt: 'Husqvarna motorlock efter vattenpolering' },
+  },
+  {
+    title: 'Termostathus i stål',
+    before: { src: '/images/steel-thermostat-housing-before.jpg', alt: 'Termostathus i stål före vattenpolering' },
+    after: { src: '/images/steel-thermostat-housing-after.jpg', alt: 'Termostathus i stål efter vattenpolering' },
+  },
+];
+
+const galleryPhotos = [
+  { src: '/images/brass-marine-intake-strainers.jpg', alt: 'Polerade silar i mässing för marin användning', caption: 'Marinsilar i mässing' },
+  { src: '/images/bing-carburetor-polished.jpg', alt: 'Polerad Bing förgasare i aluminium', caption: 'Bing förgasare' },
+  { src: '/images/brake-caliper-halves.jpg', alt: 'Polerade bromsokhalvor i aluminium', caption: 'Bromsokhalvor i aluminium' },
+  { src: '/images/aluminum-differential-cover.jpg', alt: 'Polerat differentiallock i aluminium', caption: 'Differentiallock i aluminium' },
+  { src: '/images/aluminum-steering-knuckle.jpg', alt: 'Polerad styrled i aluminium', caption: 'Styrled i aluminium' },
+  { src: '/images/motorcycle-throttle-assembly.jpg', alt: 'Polerat gasreglage till motorcykel', caption: 'Gasreglage till motorcykel' },
+  { src: '/images/aluminum-bearing-housing.jpg', alt: 'Polerat lagerhus i aluminium', caption: 'Lagerhus i aluminium' },
+  { src: '/images/brake-caliper-installed.jpg', alt: 'Polerad bromsok monterad på motorcykelhjul', caption: 'Bromsok monterad' },
+  { src: '/images/dark-steel-cylinder-block.jpg', alt: 'Cylinderblock i stål', caption: 'Cylinderblock i stål' },
+  { src: '/images/blasting-cabinet.jpg', alt: 'Vattenpoleringsmaskin i vår verkstad', caption: 'Vår utrustning' },
+  { src: '/images/edelbrock-intake-manifold.jpg', alt: 'Polerat Edelbrock insugningsrör i aluminium', caption: 'Edelbrock insugningsrör' },
+];
+---
+
+<section id="galleri" class="py-20 md:py-28 lg:py-32 bg-dark-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="max-w-3xl mb-16 md:mb-20">
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-8">Galleri</h2>
+      <p class="text-lg text-steel-400 leading-relaxed">
+        Se skillnaden med egna ögon. Våra före- och efterbilder visar kraften i vattenpolering.
+      </p>
+    </div>
+
+    <!-- Before / After Showcase -->
+    <div class="mb-16 md:mb-20">
+      <h3 class="text-sm font-semibold text-steel-400 uppercase tracking-wider mb-8">Före & Efter</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {beforeAfterPairs.map((pair) => (
+          <div class="bg-dark-950 border border-dark-600 rounded-xl overflow-hidden">
+            <div class="px-6 pt-5 pb-3">
+              <h4 class="text-silver-100 font-semibold text-lg">{pair.title}</h4>
+            </div>
+            <div class="grid grid-cols-2 gap-px bg-dark-600">
+              <div class="relative bg-dark-950">
+                <span class="absolute top-3 left-3 z-10 bg-dark-950/80 backdrop-blur-sm text-steel-400 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-dark-600">Före</span>
+                <img
+                  src={pair.before.src}
+                  alt={pair.before.alt}
+                  class="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div class="relative bg-dark-950">
+                <span class="absolute top-3 left-3 z-10 bg-water-700/80 backdrop-blur-sm text-water-400 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full border border-water-500/30">Efter</span>
+                <img
+                  src={pair.after.src}
+                  alt={pair.after.alt}
+                  class="w-full aspect-[4/3] object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Photo Grid -->
+    <div>
+      <h3 class="text-sm font-semibold text-steel-400 uppercase tracking-wider mb-8">Våra arbeten</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {galleryPhotos.map((photo) => (
+          <div class="group relative bg-dark-950 border border-dark-600 rounded-lg overflow-hidden hover:border-water-500/40 transition-all duration-300">
+            <div class="overflow-hidden">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                class="w-full aspect-[4/3] object-cover group-hover:scale-105 group-hover:brightness-110 transition-all duration-500"
+                loading="lazy"
+              />
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-silver-200 text-sm font-medium">{photo.caption}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

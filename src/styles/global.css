@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary dark backgrounds */
+  --color-dark-950: #0a0a0a;
+  --color-dark-900: #111111;
+  --color-dark-800: #1a1a1a;
+  --color-dark-700: #222222;
+  --color-dark-600: #2a2a2a;
+
+  /* Metallic silver */
+  --color-silver-300: #c0c0c0;
+  --color-silver-200: #d4d4d4;
+  --color-silver-100: #e0e0e0;
+
+  /* Steel */
+  --color-steel-500: #71797E;
+  --color-steel-400: #848884;
+
+  /* Accent blue (water reference) */
+  --color-water-700: #1e3a5f;
+  --color-water-500: #2563eb;
+  --color-water-400: #3b82f6;
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #71797E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #848884;
+}
+
+/* Gallery hover glow (Flux - enhances Forge's existing hover transitions) */
+#galleri .group:hover {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+}
+#galleri .mb-16 .grid > div:hover,
+#galleri .md\:mb-20 .grid > div:hover {
+  transform: translateY(-4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Selection color */
+::selection {
+  background-color: #1e3a5f;
+  color: #e0e0e0;
+}
