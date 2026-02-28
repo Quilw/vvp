@@ -153,6 +153,15 @@ public/
 - **Crow** — Project lead. Coordinates team, handles deployment to GitHub + Cloudflare Pages
 
 ### Build Plan
-1. Forge builds complete site with all sections and real content (Phase 1)
-2. Flux adds animations and interactive polish (Phase 2)
-3. Crow deploys to GitHub + Cloudflare Pages (Phase 3)
+1. Forge builds complete site with all sections and real content (Phase 1) — DONE
+2. Flux adds animations and interactive polish (Phase 2) — DONE
+3. Crow deploys to GitHub + Cloudflare Pages (Phase 3) — GitHub DONE, Cloudflare needs manual setup
+
+## Deployment
+- **GitHub**: https://github.com/Quilw/vvp (public repo, main branch)
+- **Cloudflare Pages**: Needs one-time setup via Cloudflare dashboard
+  - Connect GitHub repo `Quilw/vvp`
+  - Framework preset: Astro
+  - Build command: `npm run build`
+  - Output directory: `dist`
+  - Then every push to `main` auto-deploys
