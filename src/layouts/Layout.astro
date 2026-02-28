@@ -21,20 +21,53 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- SEO -->
+    <link rel="canonical" href="https://vvp-4pk.pages.dev/" />
+    <meta name="theme-color" content="#0a0a0a" />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="sv_SE" />
+    <meta property="og:url" content="https://vvp-4pk.pages.dev/" />
+    <meta property="og:image" content="https://vvp-4pk.pages.dev/images/brake-caliper-halves.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Växjö Vattenpolering AB",
+      "description": "Professionell vattenpolering och ytbehandling av metall i Växjö",
+      "telephone": "+46-470-748690",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rådjursvägen 15",
+        "postalCode": "352 45",
+        "addressLocality": "Växjö",
+        "addressCountry": "SE"
+      },
+      "url": "https://vvp-4pk.pages.dev"
+    }
+    </script>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- GSAP for animations (used by Flux) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Noscript fallback: ensure content visible without JS -->
+    <noscript>
+      <style>
+        [data-animate], .gsap-hidden { opacity: 1 !important; transform: none !important; }
+      </style>
+    </noscript>
 
     <title>{title}</title>
   </head>
@@ -42,6 +75,9 @@ const {
     <slot />
 
     <script>
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
       // Flux — Animation & scroll effects
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduced) {
